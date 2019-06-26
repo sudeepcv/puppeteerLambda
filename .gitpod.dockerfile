@@ -32,7 +32,7 @@ RUN npm i puppeteer \
 
 # Run everything after as non-privileged user.
 RUN npm install -g aws-sam-local
-Run npm update -g aws-sam-local
+RUN npm update -g aws-sam-local
 USER pptruser
 
 CMD ["google-chrome-unstable"]
