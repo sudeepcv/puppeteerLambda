@@ -31,8 +31,8 @@ RUN npm i puppeteer \
     && chown -R pptruser:pptruser /node_modules
 
 # Run everything after as non-privileged user.
-RUN npm install -g aws-sam-local
-RUN npm update -g aws-sam-local
+RUN npm install i aws-sam-local
+RUN npm update i aws-sam-local
 USER pptruser
 
 CMD ["google-chrome-unstable"]
