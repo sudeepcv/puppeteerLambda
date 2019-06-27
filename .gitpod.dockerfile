@@ -1,24 +1,21 @@
-FROM microsoft/dotnet:2.1-sdk
-WORKDIR /source
+FROM ubuntu:14.04
+MAINTAINER jerome.petazzoni@docker.com
 
-# cache restore result
-COPY MockBootstraps/*.csproj .
-RUN dotnet restore
+# Let's start with some basic stuff.
+RUN apt-get update -qq && apt-get install -qqy \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    lxc \
+    iptables
+    
+# Install Docker from Docker Inc. repositories.
+RUN curl -sSL https://get.docker.com/ | sh
 
-# copy the rest of the code
-COPY MockBootstraps/ .
-RUN dotnet publish --output /app/ --configuration Release
+# Install the magic wrapper.
+ADD ./wrapdocker /usr/local/bin/wrapdocker
+RUN chmod +x /usr/local/bin/wrapdocker
 
-
-FROM lambci/lambda-base
-
-ENV PATH=/var/lang/bin:$PATH \
-    LD_LIBRARY_PATH=/var/lang/lib:$LD_LIBRARY_PATH \
-    AWS_EXECUTION_ENV=AWS_Lambda_dotnetcore2.1
-
-RUN rm -rf /var/runtime /var/lang && \
-  curl https://lambci.s3.amazonaws.com/fs/dotnetcore2.1.tgz | tar -zx -C /
-
-COPY --from=0 /app/MockBootstraps.* /var/runtime/
-
-ENTRYPOINT ["/var/lang/bin/dotnet", "/var/runtime/MockBootstraps.dll"]
+# Define additional metadata for our image.
+VOLUME /var/lib/docker
+CMD ["wrapdocker"]
