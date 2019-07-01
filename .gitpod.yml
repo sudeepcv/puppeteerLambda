@@ -1,1 +1,2 @@
-image: cnadiminti/aws-sam-local:latest
+image:
+  file: .gitpod.dockerfile
