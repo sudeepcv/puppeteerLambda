@@ -1,3 +1,2 @@
-image: stechstudio/gitpod-lambda
-
- 
+image:
+  file: .gitpod.dockerfile
