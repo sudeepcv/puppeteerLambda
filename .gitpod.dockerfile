@@ -17,5 +17,5 @@ RUN curl -sSL https://get.docker.com/ | sh
 #RUN chmod +x /usr/local/bin/wrapdocker
 
 # Define additional metadata for our image.
-VOLUME /var/lib/docker
-CMD ["wrapdocker"]
+#VOLUME /var/lib/docker
+#CMD ["wrapdocker"]
